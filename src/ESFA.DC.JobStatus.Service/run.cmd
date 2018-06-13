@@ -1,1 +1,1 @@
-﻿dotnet ESFA.DC.JobStatus.Service
+dotnet ESFA.DC.JobStatus.Service.dll
