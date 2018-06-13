@@ -52,15 +52,15 @@ namespace ESFA.DC.JobStatus.Service
                         MinimumLogLevel = LogLevel.Information
                     }
                 },
-                TaskKey = "Audit",
+                TaskKey = "Job Status",
                 EnableInternalLogs = true,
-                JobId = "Audit Service",
+                JobId = "Job Status Service",
                 MinimumLogLevel = LogLevel.Information
             };
             IExecutionContext executionContext = new ExecutionContext
             {
-                JobId = "Audit Service",
-                TaskKey = "Audit"
+                JobId = "Job Status Service",
+                TaskKey = "Job Status"
             };
             ILogger logger = new SeriLogger(applicationLoggerOutputSettings, executionContext);
             IQueueSubscriptionService<JobStatusDto> queueSubscriptionService = new QueueSubscriptionService<JobStatusDto>(queueConfiguration, serializationService, logger);
