@@ -64,7 +64,7 @@ namespace ESFA.DC.JobStatus.Service
             };
             ILogger logger = new SeriLogger(applicationLoggerOutputSettings, executionContext);
             IQueueSubscriptionService<JobStatusDto> queueSubscriptionService = new QueueSubscriptionService<JobStatusDto>(queueConfiguration, serializationService, logger);
-            IJobStatusWebServiceCallService<JobStatusDto> jobStatusWebServiceCallService = new JobStatusWebServiceCallService<JobStatusDto>(jobStatusWebServiceCallConfig, queueSubscriptionService, logger);
+            IJobStatusWebServiceCallService<JobStatusDto> jobStatusWebServiceCallService = new JobStatusWebServiceCallService<JobStatusDto>(jobStatusWebServiceCallConfig, queueSubscriptionService,serializationService, logger);
 
             jobStatusWebServiceCallService.Subscribe();
 
