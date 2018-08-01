@@ -35,7 +35,7 @@ namespace ESFA.DC.JobStatus.Service
 
             IConfiguration configuration = configBuilder.Build();
 
-            IJobStatusWebServiceCallServiceConfig auditingPersistenceServiceConfig = new JobStatusWebServiceCallServiceConfig(configuration["jobSchedulerApiEndPoint"]);
+            IJobStatusWebServiceCallServiceConfig jobStatusWebServiceCallConfig = new JobStatusWebServiceCallServiceConfig(configuration["jobSchedulerApiEndPoint"]);
             IQueueConfiguration queueConfiguration = new JobStatusQueueConfiguration(configuration["queueConnectionString"], configuration["queueName"], 1);
             ISerializationService serializationService = new JsonSerializationService();
             IApplicationLoggerSettings applicationLoggerOutputSettings = new ApplicationLoggerSettings
@@ -64,7 +64,7 @@ namespace ESFA.DC.JobStatus.Service
             };
             ILogger logger = new SeriLogger(applicationLoggerOutputSettings, executionContext);
             IQueueSubscriptionService<JobStatusDto> queueSubscriptionService = new QueueSubscriptionService<JobStatusDto>(queueConfiguration, serializationService, logger);
-            IJobStatusWebServiceCallService<JobStatusDto> jobStatusWebServiceCallService = new JobStatusWebServiceCallService<JobStatusDto>(auditingPersistenceServiceConfig, queueSubscriptionService, logger);
+            IJobStatusWebServiceCallService<JobStatusDto> jobStatusWebServiceCallService = new JobStatusWebServiceCallService<JobStatusDto>(jobStatusWebServiceCallConfig, queueSubscriptionService, logger);
 
             jobStatusWebServiceCallService.Subscribe();
 
