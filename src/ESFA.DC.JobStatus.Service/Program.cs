@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.JobStatus.Dto;
 using ESFA.DC.JobStatus.Interface;
 using ESFA.DC.JobStatus.Service.Configuration;
@@ -12,6 +13,7 @@ using ESFA.DC.Logging.Enums;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Queueing;
 using ESFA.DC.Queueing.Interface;
+using ESFA.DC.Queueing.Interface.Configuration;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using Microsoft.Extensions.Configuration;
@@ -63,8 +65,9 @@ namespace ESFA.DC.JobStatus.Service
                 TaskKey = "Job Status"
             };
             ILogger logger = new SeriLogger(applicationLoggerOutputSettings, executionContext);
-            IQueueSubscriptionService<JobStatusDto> queueSubscriptionService = new QueueSubscriptionService<JobStatusDto>(queueConfiguration, serializationService, logger);
-            IJobStatusWebServiceCallService<JobStatusDto> jobStatusWebServiceCallService = new JobStatusWebServiceCallService<JobStatusDto>(jobStatusWebServiceCallConfig, queueSubscriptionService, logger);
+            IDateTimeProvider dateTimeProvider = new DateTimeProvider.DateTimeProvider();
+            IQueueSubscriptionService<JobStatusDto> queueSubscriptionService = new QueueSubscriptionService<JobStatusDto>(queueConfiguration, serializationService, logger, dateTimeProvider);
+            IJobStatusWebServiceCallService<JobStatusDto> jobStatusWebServiceCallService = new JobStatusWebServiceCallService<JobStatusDto>(jobStatusWebServiceCallConfig, queueSubscriptionService, serializationService, logger);
 
             jobStatusWebServiceCallService.Subscribe();
 
