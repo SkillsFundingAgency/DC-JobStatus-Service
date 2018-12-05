@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using ESFA.DC.DateTimeProvider.Interface;
-using ESFA.DC.JobStatus.Dto;
 using ESFA.DC.JobStatus.Interface;
-using ESFA.DC.JobStatus.Service.Configuration;
 using ESFA.DC.JobStatus.WebServiceCall.Service;
+using ESFA.DC.JobStatus.WebServiceCall.Service.Interface;
 using ESFA.DC.Logging;
 using ESFA.DC.Logging.Config;
 using ESFA.DC.Logging.Config.Interfaces;
@@ -38,7 +36,7 @@ namespace ESFA.DC.JobStatus.Service
             IConfiguration configuration = configBuilder.Build();
 
             IJobStatusWebServiceCallServiceConfig jobStatusWebServiceCallConfig = new JobStatusWebServiceCallServiceConfig(configuration["jobSchedulerApiEndPoint"]);
-            IQueueConfiguration queueConfiguration = new JobStatusQueueConfiguration(configuration["queueConnectionString"], configuration["queueName"], 1);
+            IQueueConfiguration queueConfiguration = new QueueConfiguration(configuration["queueConnectionString"], configuration["queueName"], 1);
             ISerializationService serializationService = new JsonSerializationService();
             IApplicationLoggerSettings applicationLoggerOutputSettings = new ApplicationLoggerSettings
             {
@@ -65,8 +63,7 @@ namespace ESFA.DC.JobStatus.Service
                 TaskKey = "Job Status"
             };
             ILogger logger = new SeriLogger(applicationLoggerOutputSettings, executionContext);
-            IDateTimeProvider dateTimeProvider = new DateTimeProvider.DateTimeProvider();
-            IQueueSubscriptionService<JobStatusDto> queueSubscriptionService = new QueueSubscriptionService<JobStatusDto>(queueConfiguration, serializationService, logger, dateTimeProvider);
+            IQueueSubscriptionService<JobStatusDto> queueSubscriptionService = new QueueSubscriptionService<JobStatusDto>(queueConfiguration, serializationService, logger);
             IJobStatusWebServiceCallService<JobStatusDto> jobStatusWebServiceCallService = new JobStatusWebServiceCallService<JobStatusDto>(jobStatusWebServiceCallConfig, queueSubscriptionService, serializationService, logger);
 
             jobStatusWebServiceCallService.Subscribe();
