@@ -11,7 +11,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ESFA.DC.DateTimeProvider" Version="0.1.6-beta0001" />
-    <PackageReference Include="ESFA.DC.JobStatus.WebServiceCall.Service" Version="0.2.4-beta0001" />
+    <PackageReference Include="ESFA.DC.JobStatus.WebServiceCall.Service" Version="0.2.6-beta0001" />
     <PackageReference Include="ESFA.DC.Queueing" Version="0.1.14-beta0001" />
     <PackageReference Include="ESFA.DC.Queueing.Interface" Version="0.1.14-beta0001" />
     <PackageReference Include="ESFA.DC.Serialization.Json" Version="0.1.4-beta0001" />
